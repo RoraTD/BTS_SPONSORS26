@@ -7,37 +7,41 @@
 <title>BTS Sponsors 2026</title>
 
 <style>
-html, body {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    background: transparent;
-}
+    * {
+        box-sizing: border-box;
+    }
 
-#billboard {
-    position: relative;
-    width: 100vw;
-    height: 100vh;
-    overflow: hidden;
-}
+    html, body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background: #000;
+    }
 
-.slide {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    inset: 0;
+    #billboard {
+        position: relative;
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
+        background: #000;
+    }
 
-    object-fit: contain;
+    .slide {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        object-position: center;
+        opacity: 0;
+        transition: opacity 1.2s ease-in-out;
+    }
 
-    opacity: 0;
-    transition: opacity 1.2s ease-in-out;
-}
-
-.slide.active {
-    opacity: 1;
-}
+    .slide.active {
+        opacity: 1;
+    }
 </style>
 </head>
 
@@ -51,7 +55,7 @@ const sponsors = [
     "ADRA_DESIGNS.png",
     "AFFORDABLE_HOMES.png",
     "AUS_CHOPPERS.png",
-    "BADCOMPNAY.jpg",
+    "BADCOMPANY.jpg",
     "BATTI_BRAND.png",
     "BORKAN.jpg",
     "BaDDecO.jpg",
@@ -60,14 +64,14 @@ const sponsors = [
     "Bloomingdeals.png",
     "BsThreads.jpg",
     "CARO.png",
-    "CASTLE_FASHIONS.jpg", 
+    "CASTLE_FASHIONS.jpg",
     "CETI.png",
     "CETI_CUSTOMS.jpeg",
     "CRAZY.jpg",
     "CRYSTAL_KITSUNE.png",
     "Cinnamon_Designs.jpg",
     "Custom_Creations.png",
-    "DEL_MAL.png", 
+    "DEL_MAL.png",
     "DESIGNS_LADYO.png",
     "DGMC_LOGO.png",
     "DLMC_LOGO.jpg",
@@ -80,7 +84,7 @@ const sponsors = [
     "FallenDeco_FallenDecoProps.jpg",
     "FallenDeco_GetARoom.jpg",
     "FallenDeco_MysticGardens.jpg",
-    "Foggy_Soul.png,
+    "Foggy_Soul.png",
     "GRAFI_DESIGNS.jpg",
     "Good Girl Graphics.png",
     "HONEY_DESIGN.png",
@@ -89,36 +93,65 @@ const sponsors = [
     "JustBottles_Taz_Tazman221.jpg",
     "KITTI_KAT.jpg",
     "LLMC LOGO.png",
-    "LPMC.png",   
+    "LPMC.png",
+    "Lavelin.png",
+    "Mark.jpg",
+    "NIKTE.png",
+    "OUTER_LIMITS.png",
+    "PENYCAT_DESIGNS.jpg",
+    "PTEntertainment-Pinkie-And-Tim.png",
+    "Pool-Table-banner.png",
+    "RENA_DESIGN.jpg",
+    "REVERIES.png",
+    "RIVER_ONESTOP.jpg",
+    "SASSY_DESIGN.png",
+    "SEDNASD1.png",
+    "SIMPLY_UNIQUE.png",
+    "Sensual_Imaging.png",
+    "Sunrise_Fashion.jpg",
+    "TOKE_DESIGNS.jpg",
+    "Taz-NadoDesigns_Taz_Tazman.jpg",
+    "WOS_CLOTHING.png",
+    "XEON_STREAMS DJ_CLUB_STREAMS.png",
+    "Your_Wedding_Connection.jpg",
+    "ZED.png",
+    "on-the-table-banner.png"
 ];
 
 const billboard = document.getElementById("billboard");
 
-sponsors.forEach((image, index) => {
+let current = 0;
+let slides = [];
 
-    const slide = document.createElement("img");
+/* Build all 64 sponsor slides */
+sponsors.forEach((filename, index) => {
 
-    slide.src = image;
-    slide.className = "slide";
+    const img = document.createElement("img");
+
+    img.src = encodeURI(filename);
+    img.className = "slide";
+    img.alt = "BTS Sponsor";
 
     if (index === 0) {
-        slide.classList.add("active");
+        img.classList.add("active");
     }
 
-    billboard.appendChild(slide);
+    billboard.appendChild(img);
+    slides.push(img);
 });
 
-const slides = document.querySelectorAll(".slide");
-
-let current = 0;
-
+/* Rotate sponsor every 8 seconds */
 if (slides.length > 1) {
 
     setInterval(() => {
 
         slides[current].classList.remove("active");
 
-        current = (current + 1) % slides.length;
+        current++;
+
+        if (current >= slides.length) {
+            current = 0;
+        }
 
         slides[current].classList.add("active");
 
